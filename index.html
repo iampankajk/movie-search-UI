@@ -141,7 +141,7 @@
 
 
     async function movie(movie_name) {
-        let data = await fetch(`http://www.omdbapi.com/?apikey=10040215&t=${movie_name}`);
+        let data = await fetch(`https://www.omdbapi.com/?apikey=10040215&t=${movie_name}`);
 
         let res = await data.json();
 
