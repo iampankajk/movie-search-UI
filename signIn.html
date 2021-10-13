@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        form{
+            padding: 10px;
+            color: white;
+        }
+        input{
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+
+        }
+        #container{
+            width: 400px;
+            margin: auto;
+            margin-top: 50px;
+            background-image: linear-gradient(to bottom, #141b29, #0c111b 300px);
+        }
+        #submit{
+            width: 150px;
+        }
+
+        #nav{
+            
+            padding: 10px;
+            background-image: linear-gradient(to bottom, #141b29, #0c111b 300px);
+            
+        }
+        #li{
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 10px;
+            list-style: none;
+            padding: 5px;
+        }
+        button{
+            border: none;
+            padding: 10px;
+            font-weight: 700;
+            background-color:transparent;
+            color: white;
+        }
+
+        button:hover{
+            background-color: rgb(115, 182, 221);
+        }
+    </style>
+</head>
+<body>
+    <div id="nav">
+        <ul id="li">
+            <li>
+                <a href="signup.html"><button>Sign Up</button></a>
+            </li>
+            <li>
+                <a href="signIn.html"><button>Login</button></a>
+            </li>
+            <li>
+                <a href="index.html"><button>Home</button></a>
+            </li>
+        </ul>
+
+    </div>
+    <div id="container">
+        <form action="home.html" id="myForm" onsubmit="signin(event)">
+            <h1>Sign In</h1>
+            <input type="email" id="email" placeholder="Email"><br>
+            <input type="password" id="password" placeholder="password"><br>
+            <input type="submit" id="submit" value="Log In">
+        </form>
+    </div>
+</body>
+</html>
+
+
+<script>
+
+function signin(e){
+        
+
+        let myForm = document.getElementById("myForm");
+
+        let email = myForm.email.value;
+
+        let password = myForm.password.value;
+
+        let all_users = JSON.parse(localStorage.getItem("users"));
+
+        let flag=true;
+
+        all_users.forEach(function(user){
+
+            if(user.email==email && user.password==password){
+               
+                flag=false;
+                myForm.email.value ="";
+
+                myForm.password.value ="";
+            }
+        });
+
+       if(flag){
+           alert("Password incorrect");
+       }
+
+       
+       
+    }
+
+</script>
