@@ -100,6 +100,9 @@
             grid-template-columns: 40% 60%;
             color: white;
         }
+        #logout{
+            display: none;
+        }
     </style>
 </head>
 
@@ -110,7 +113,8 @@
                 <a href="signup.html"><button>Sign Up</button></a>
             </li>
             <li>
-                <a href="signIn.html"><button>Login</button></a>
+                <a href="signIn.html" id="disable"><button id="btn">Login</button></a>
+                <div><button onclick="logOut()" id="logout">Log out</button></div>
             </li>
             <li>
                 <a href="index.html"><button>Home</button></a>
@@ -337,5 +341,41 @@
 
     }
 
+
+    function showUser(){
+      
+
+       
+        let username = JSON.parse(localStorage.getItem("username"));
+
+        if(username[0]==null){
+
+        }else{
+
+        let btn = document.getElementById("btn");
+        let disable = document.getElementById("disable");
+        disable.style.pointerEvents = "none";
+        btn.innerText = username;
+        btn.addEventListener("onclick",showLogOut());
+
+        }
+        console.log(username[0]);
+    }
+
+    showUser();
+    
+    function showLogOut(){
+        let logout = document.getElementById("logout");
+        logout.style.display = "block";
+
+    }
+
+    function logOut(){
+        let logout = document.getElementById("logout");
+        logout.style.display = "none";
+        localStorage.setItem("username",JSON.stringify([null]));
+        window.location.reload();
+
+    }
 
 </script>

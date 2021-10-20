@@ -131,12 +131,14 @@
             },
         })
             .then((res) => {
+                
                 return res.json();
 
             }).then((res) => {
                 console.log(res);
-            }).catch((e) => {
-                console.log(e)
+                
+            }).catch((error) => {
+                console.log(error);
             });
 
 
