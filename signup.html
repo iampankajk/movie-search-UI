@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,52 +12,59 @@
             padding: 0;
             box-sizing: border-box;
         }
-        form{
+
+        form {
             padding: 10px;
             color: white;
         }
-        input{
+
+        input {
             margin: 10px;
             padding: 10px;
             width: 200px;
 
         }
-        #container{
+
+        #container {
             width: 400px;
             margin: auto;
             margin-top: 50px;
             background-image: linear-gradient(to bottom, #141b29, #0c111b 300px);
         }
-        #submit{
+
+        #submit {
             width: 150px;
         }
 
-        #nav{
-            
+        #nav {
+
             padding: 10px;
             background-image: linear-gradient(to bottom, #141b29, #0c111b 300px);
-            
+
         }
-        #li{
+
+        #li {
             display: flex;
             flex-direction: row-reverse;
             gap: 10px;
             list-style: none;
             padding: 5px;
         }
-        button{
+
+        button {
             border: none;
             padding: 10px;
             font-weight: 700;
-            background-color:transparent;
+            background-color: transparent;
             color: white;
         }
 
-        button:hover{
+        button:hover {
             background-color: rgb(115, 182, 221);
         }
     </style>
 </head>
+
 <body>
     <div id="nav">
         <ul id="li">
@@ -67,85 +75,71 @@
                 <a href="signIn.html"><button>Login</button></a>
             </li>
             <li>
-               <a href="index.html"><button>Home</button></a>
+                <a href="index.html"><button>Home</button></a>
             </li>
         </ul>
 
     </div>
     <div id="container">
-        
+
         <form action="" id="myForm" onsubmit="signup(event)">
             <h1>Sign Up</h1>
-            <input type="text" name="" id="name"/ placeholder="Name"><br>
-            <input type="tel" name="" id="contact"/ placeholder="Mobile no:"><br>
-            
-            <input type="email" name="" id="email" placeholder="Email"><br>
-            
-            <input type="password" name="" id="password" placeholder="Password"><br>
-            <input type="submit" value="Sign Up" id="submit"/>
+
+            <input type="text" id="name" placeholder="Name"><br>
+            <input type="email" id="email" placeholder="Email"><br>
+            <input type="password" id="password" placeholder="Password"><br>
+            <input type="text" id="username" placeholder="Username" />
+            <input type="number" id="mobile" placeholder="Mobile" />
+            <input type="text" id="description" placeholder="Description" />
+
+            <input type="submit" value="Sign Up" id="submit" />
         </form>
     </div>
 </body>
+
 </html>
 
 <script>
 
-    
 
-    function signup(e){
+
+    function signup(e) {
         e.preventDefault();
 
-        let myForm = document.getElementById("myForm");
+        let form = document.getElementById("myForm");
 
-        let name = myForm.name.value;
+        let user_data = {
+            name: form.name.value,
+            email: form.email.value,
+            password: form.password.value,
+            username: form.username.value,
+            mobile: form.mobile.value,
+            description: form.description.value,
 
-        let contact = myForm.contact.value;
-
-        let email = myForm.email.value;
-
-        let password = myForm.password.value;
-
-        if( localStorage.getItem("users")===null){
-            localStorage.setItem("users",JSON.stringify([]));
-        }
-
-        let user={
-            name,
-            contact,
-            email,
-            password
         };
 
-        let arr = JSON.parse(localStorage.getItem("users"));
-        let flag=true;
-        for(let i=0; i<arr.length; i++){
-            if(arr[i].email==email){
-                alert("email already exist");
-                flag=false;
-                break;
-            }
-        }
-        
-        if(flag){
-            if(name.length>0 && contact.length>0 && email.length>0 && password.length>0){
-                arr.push(user);
+        user_data = JSON.stringify(user_data);
 
-                localStorage.setItem("users", JSON.stringify(arr));
+        fetch("https://masai-api-mocker.herokuapp.com/auth/register", {
 
-                myForm.name.value="";
-                myForm.contact.value="";
-                myForm.email.value="";
-                myForm.password.value="";
-            }else{
-                alert("fill all details");
-            }
-      
+            method: 'POST',
+            body: user_data,
 
-        }
+            headers: {
 
-        
-       
-       
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => {
+                return res.json();
+
+            }).then((res) => {
+                console.log(res);
+            }).catch((e) => {
+                console.log(e)
+            });
+
+
     }
 
 </script>

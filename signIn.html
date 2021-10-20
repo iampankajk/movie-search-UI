@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,52 +12,59 @@
             padding: 0;
             box-sizing: border-box;
         }
-        form{
+
+        form {
             padding: 10px;
             color: white;
         }
-        input{
+
+        input {
             margin: 10px;
             padding: 10px;
             width: 200px;
 
         }
-        #container{
+
+        #container {
             width: 400px;
             margin: auto;
             margin-top: 50px;
             background-image: linear-gradient(to bottom, #141b29, #0c111b 300px);
         }
-        #submit{
+
+        #submit {
             width: 150px;
         }
 
-        #nav{
-            
+        #nav {
+
             padding: 10px;
             background-image: linear-gradient(to bottom, #141b29, #0c111b 300px);
-            
+
         }
-        #li{
+
+        #li {
             display: flex;
             flex-direction: row-reverse;
             gap: 10px;
             list-style: none;
             padding: 5px;
         }
-        button{
+
+        button {
             border: none;
             padding: 10px;
             font-weight: 700;
-            background-color:transparent;
+            background-color: transparent;
             color: white;
         }
 
-        button:hover{
+        button:hover {
             background-color: rgb(115, 182, 221);
         }
     </style>
 </head>
+
 <body>
     <div id="nav">
         <ul id="li">
@@ -75,47 +83,78 @@
     <div id="container">
         <form action="home.html" id="myForm" onsubmit="signin(event)">
             <h1>Sign In</h1>
-            <input type="email" id="email" placeholder="Email"><br>
-            <input type="password" id="password" placeholder="password"><br>
-            <input type="submit" id="submit" value="Log In">
+            <input type="text" id="user" placeholder="Username" /><br>
+            <input type="password" id="pass" placeholder="password"><br>
+            <input type="submit" class="submit" value="Log In">
         </form>
     </div>
 </body>
+
 </html>
 
 
 <script>
 
-function signin(e){
-        
+    function signin(e) {
 
-        let myForm = document.getElementById("myForm");
 
-        let email = myForm.email.value;
+        e.preventDefault();
 
-        let password = myForm.password.value;
+        let form = document.getElementById("myForm");
 
-        let all_users = JSON.parse(localStorage.getItem("users"));
+        let user_data = {
+            username: form.user.value,
+            password: form.pass.value,
+        };
 
-        let flag=true;
+        let data_to_send = JSON.stringify(user_data);
 
-        all_users.forEach(function(user){
+        fetch("https://masai-api-mocker.herokuapp.com/auth/login", {
+            method: 'POST',
 
-            if(user.email==email && user.password==password){
-               
-                flag=false;
-                myForm.email.value ="";
+            body: data_to_send,
 
-                myForm.password.value ="";
-            }
-        });
+            headers: {
 
-       if(flag){
-           alert("Password incorrect");
-       }
+                "Content-Type": "application/json",
+            },
+        })
 
-       
-       
+            .then((res) => {
+                return res.json();
+
+            }).then((res) => {
+
+                fetchMyData(user_data.username, res.token);
+
+            }).catch((e) => {
+                console.log(e)
+            });
+
+    }
+
+    function fetchMyData(username, token) {
+
+        fetch(`https://masai-api-mocker.herokuapp.com/user/${username}`, {
+
+            headers: {
+
+                "Content-Type": "application/json",
+
+                Authorization: `Bearer ${token}`,
+            },
+
+        })
+            .then((res) => {
+                return res.json();
+
+            }).then((res) => {
+                console.log(res);
+            }).catch((e) => {
+                console.log(e)
+            });
+
+
     }
 
 </script>
